@@ -1,0 +1,7 @@
+<odoo>
+<menuitem id="real_estate_menu_root" name="Real Estate">
+    <menuitem id="advertisements_menu" name="Advertisements">
+        <menuitem id="propierties_menu_action" action="estate_property_action" name="Propierties" />
+    </menuitem>
+</menuitem>
+</odoo>
