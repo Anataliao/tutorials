@@ -11,10 +11,10 @@
 
     # data files always loaded at installation
     'data': [
-        'views/mymodule_view.xml',
+        'security/ir.model.access.cvs',
     ],
     #data files containing optionally loaded demonstration data
     'demo': [
-        'demo/demo_data.xml',
+        # 'demo/demo_data.xml',
     ],
 }
