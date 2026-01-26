@@ -31,7 +31,7 @@ class EstateProperty(models.Model):
         default=2
     )
     living_area = fields.Integer(
-        string="Living Area"
+        string="Living Area (sqm)"
         
     )
     facades = fields.Integer(
@@ -66,8 +66,8 @@ class EstateProperty(models.Model):
         string="state",
         selection=[
             ('new', 'New'),
-            ('offer received', 'Offer Received'),
-            ('offer accepted', 'Offer Accepted'),
+            ('offer_received', 'Offer Received'),
+            ('offer_accepted', 'Offer Accepted'),
             ('sold', 'Sold'),
             ('cancelled', 'Cancelled'),
         ],
