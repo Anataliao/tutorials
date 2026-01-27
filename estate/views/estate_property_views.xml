@@ -7,12 +7,17 @@
         <field name="arch" type="xml">
             <list string="propierties">
                 <field name="name" />
+                <field name="property_type_id" />
+                <field name="tag_ids" widget="many2many_tags" />
                 <field name="postcode" />
                 <field name="bedrooms" />
                 <field name="living_area" />
                 <field name="expected_price" />
                 <field name="selling_price" />
                 <field name="date_availability" />
+                <field name="salesman" />
+                <field name="buyer" />
+
             </list>
         </field>
     </record>
@@ -29,9 +34,11 @@
                             <field name="name" />
                         </h1>
                     </div>
-
+                    
                     <group>
+                        <field name="tag_ids" widget="many2many_tags" />
                         <group>
+                            <field name="property_type_id" />
                             <field name="postcode" />
                             <field name="date_availability" />
                         </group>
@@ -56,6 +63,27 @@
                             </group>
                             <field name="description" />
                         </page>
+
+                        <page string="Offers">
+                            <field name="offer_ids">
+                                <list editable="bottom">
+                                    <field name="partner_id"/>
+                                    <field name="price"/>
+                                    <field name="status"/>
+                                </list>
+                            </field>
+                        </page>
+
+
+                         <page string="Other Info">
+                            <group>
+                                <group>
+                                    <field name="salesman" />
+                                    <field name="buyer" />
+                                </group>
+                            </group>
+                            <field name="other_info" />
+                        </page>
                     </notebook>
 
                 </sheet>
@@ -68,7 +96,8 @@
         <field name="model">estate.property</field>
         <field name="arch" type="xml">
             <search string="Search Properties">
-
+                <field name="property_type_id" />
+                <field name="tag_ids" />
                 <field name="name" />
                 <field name="postcode" />
                 <field name="expected_price" />

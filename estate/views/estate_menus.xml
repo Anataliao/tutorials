@@ -3,5 +3,9 @@
     <menuitem id="advertisements_menu" name="Advertisements">
         <menuitem id="propierties_menu_action" action="estate_property_action" name="Propierties" />
     </menuitem>
+    <menuitem id="settings_menu" name="Settings">
+        <menuitem id="property_types_menu_action" action="action_estate_property_type" name="Property Types" />
+        <menuitem id="property_tags_menu_action" action="action_estate_property_tag" name="Property Tags" />
+    </menuitem>
 </menuitem>
 </odoo>
