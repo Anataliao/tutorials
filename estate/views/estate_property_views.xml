@@ -83,9 +83,9 @@
                                     <field name="validity"/>
                                     <field name="date_deadline"/>
                                     <field name="price"/>
-                                    <button name="action_accept" type="object" icon="fa-check"
+                                    <button name="action_accept" string=" " type="object" icon="fa-check"
                                         modifiers="{'invisible': [('status', '!=', 'pending')]}"/>
-                                    <button name="action_refuse" type="object" icon="fa-times"
+                                    <button name="action_refuse" string=" " type="object" icon="fa-times"
                                         modifiers="{'invisible': [('status', '!=', 'pending')]}"/>
 
                                     <field name="status"/>

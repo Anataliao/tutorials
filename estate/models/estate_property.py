@@ -1,12 +1,15 @@
 from odoo import models, fields
 from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
+from odoo.tools.float_utils import float_is_zero, float_compare
 
 class EstateProperty(models.Model):
     _name = "estate.property"
     _description = "Property"
 
+
+    
     active = fields.Boolean(
         default=True
     )
@@ -120,8 +123,17 @@ class EstateProperty(models.Model):
     best_price = fields.Float(
         string= "Best Price",
         compute="_compute_best_price"
-
-
+    )
+    
+ 
+    _check_expect= models.Constraint(
+        'CHECK(expected_price > 0)',
+        'A property expected price must be strictly positive.',
+    )
+    
+    _check_selling_price = models.Constraint(
+        'CHECK(selling_price >= 0)',
+        'A property selling price must be positive.',
     )
 
     @api.depends('living_area', 'garden_area')
@@ -146,8 +158,22 @@ class EstateProperty(models.Model):
         else:
             self.garden_area = 0
             self.garden_orientation = False
-        
-     
+
+    @api.constrains('selling_price', 'expected_price')
+    def _check_selling_price(self):
+        for record in self:
+            if float_is_zero(record.selling_price, precision_digits=2):
+                continue
+
+            if float_compare(
+                record.selling_price,
+                record.expected_price * 0.9,
+                precision_digits=2
+            ) < 0:
+                raise ValidationError(
+                    "The selling price cannot be less than 90% of the expected price."
+                )
+    
     def action_cancel(self):
         for record in self:
             if record.state == 'sold':
@@ -158,7 +184,7 @@ class EstateProperty(models.Model):
     def action_sold(self):
         for record in self:
             if record.state == 'cancelled':
-                raise UserError("Una propiedad cancelada no puede ser vendida.")
+                raise UserError("A cancelled property cannot be sold.")
             record.state = 'sold'
         return True
 
