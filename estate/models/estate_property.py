@@ -5,11 +5,12 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.tools.float_utils import float_is_zero, float_compare
 
 class EstateProperty(models.Model):
+
     _name = "estate.property"
     _description = "Property"
+    _order = "id desc"
 
-
-    
+ 
     active = fields.Boolean(
         default=True
     )
@@ -42,20 +43,21 @@ class EstateProperty(models.Model):
     )
     facades = fields.Integer(
         string="Facades"
-    
     )
+
     garage = fields.Boolean(
         string="Garage",
         default=False
     )
     garden = fields.Boolean(
         string="Garden"
-    
+
     )
     garden_area = fields.Integer(
         string="Garden Area"
-    
+
     )
+    
     garden_orientation = fields.Selection(
         string="Garden Orientation",
         selection=[
@@ -63,9 +65,7 @@ class EstateProperty(models.Model):
             ('south', 'South'),
             ('east', 'East'),
             ('west', 'West'),
-        ],
-    
-        
+        ],      
     )
 
     state = fields.Selection(
