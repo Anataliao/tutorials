@@ -57,6 +57,22 @@ class EstatePropertyOffer(models.Model):
         'The offer price must be strictly positive.',
     )
 
+    @api.model
+    def create(self, vals_list):
+        for vals in vals_list:
+            property_rec = self.env['estate.property'].browse(vals.get('property_id'))
+
+            if property_rec.offer_ids:
+                max_price = max(property_rec.offer_ids.mapped('price'))
+                if vals.get('price') < max_price:
+                    raise UserError(
+                        "You cannot create an offer lower than an existing offer."
+                    )
+
+            property_rec.state = 'offer_received'
+
+        return super().create(vals_list)
+
     @api.depends("create_date", "validity")
     def _compute_date_deadline(self):
         for record in self:

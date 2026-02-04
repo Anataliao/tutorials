@@ -82,13 +82,20 @@ class EstateProperty(models.Model):
         default='new'
 
     )
+    def unlink(self):
+        for record in self:
+            if record.state not in ('new', 'cancelled'):
+                raise UserError(
+                    "You cannot delete a property that is not in 'New' or 'Cancelled' status."
+                )
+        return super().unlink()
 
     property_type_id = fields.Many2one(
         "estate.property.type",
         string="Property Type"
     )
 
-    salesman = fields.Many2one(
+    user_id = fields.Many2one(
         "res.users",
         string="Salesman",
         default=lambda self: self.env.user
@@ -114,6 +121,7 @@ class EstateProperty(models.Model):
         string="Offers"
     )
     
+
     total_area = fields.Float(
         string="Total Area (sqm)",
         compute="_compute_total_area",
@@ -187,4 +195,3 @@ class EstateProperty(models.Model):
                 raise UserError("A cancelled property cannot be sold.")
             record.state = 'sold'
         return True
-

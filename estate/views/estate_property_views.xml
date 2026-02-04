@@ -19,7 +19,7 @@
                 <field name="expected_price" />
                 <field name="selling_price" />
                 <field name="date_availability" optional="hide"/>
-                <field name="salesman" />
+                <field name="user_id" />
                 <field name="buyer" />
              </list>
         </field>
@@ -135,7 +135,7 @@
                         <page string="Other Info">
                             <group>
                                 <group>
-                                    <field name="salesman" />
+                                    <field name="user_id" />
                                     <field name="buyer" />
                                 </group>
                             </group>
