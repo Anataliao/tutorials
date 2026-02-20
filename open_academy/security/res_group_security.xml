@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="group_students" model="res.groups">
+        <field name="name">students</field>
+    </record>
+
+    <record id="group_teachers" model="res.groups">
+        <field name="name">teachers</field>
+        <field name="implied_ids" eval="[(4, ref('open_academy.group_students'))]" />
+    </record>
+
+    <record id="group_coordination" model="res.groups">
+        <field name="name">coordination</field>
+        <field name="implied_ids" eval="[(4, ref('open_academy.group_teachers'))]" />
+    </record>
+    
+    <record id="group_rectory" model="res.groups">
+        <field name="name">Rectory</field>
+        <field name="implied_ids" eval="[(4, ref('open_academy.group_coordination'))]" />
+    </record>
+
+
+</odoo>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="open_academy_menu_root"
+              name="Open Academy"
+              sequence="10"/>
+
+    <menuitem id="menu_open_academy_program"
+              name="Programs"
+              parent="open_academy_menu_root"
+              action="action_open_academy_program"
+              sequence="1"/>
+
+    <menuitem id="menu_open_academy_subject"
+              name="Subjects"
+              parent="open_academy_menu_root"
+              action="action_open_academy_subject"
+              sequence="2"/>
+
+    <menuitem id="menu_open_academy_student"
+              name="Students"
+              parent="open_academy_menu_root"
+              action="action_open_academy_student"
+              sequence="3"/>
+
+    <menuitem id="menu_open_academy_registration"
+              name="Registrations"
+              parent="open_academy_menu_root"
+              action="open_academy.action_open_academy_registration"
+              sequence="4"/>
+
+    <menuitem id="menu_open_academy_enrolment"
+              name="Enrolments"
+              parent="open_academy_menu_root"
+              action="action_open_academy_enrolment"
+              sequence="5"/>
+
+    <menuitem id="menu_open_academy_grade"
+              name="Grades"
+              parent="open_academy_menu_root"
+              action="action_open_academy_grade"
+              sequence="6"/>
+
+</odoo>

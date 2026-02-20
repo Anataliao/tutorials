@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="rol_rectory" model="res.groups.privilege">
+        <field name="name">Rectory</field>
+        <field name="group_ids" eval="[(4, ref('open_academy.group_rectory'))]" />
+    </record>
+
+    <record id="rol_coordination" model="res.groups.privilege">
+        <field name="name">Coordination</field>
+        <field name="group_ids" eval="[(4, ref('open_academy.group_coordination'))]" />
+    </record>
+
+    <record id="rol_teachers" model="res.groups.privilege">
+        <field name="name">Teachers</field>
+        <field name="group_ids" eval="[(4, ref('open_academy.group_teachers'))]" />
+    </record>
+
+    <record id="rol_students" model="res.groups.privilege">
+        <field name="name">Students</field>
+        <field name="group_ids" eval="[(4, ref('open_academy.group_students'))]" />
+    </record> 
+
+</odoo>

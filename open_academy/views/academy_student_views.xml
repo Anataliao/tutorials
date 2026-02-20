@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_open_academy_student_list" model="ir.ui.view">
+        <field name="name">open.academy.student.list</field>
+        <field name="model">open.academy.student</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="identification"/>
+                <field name="email"/>
+                <field name="active_registrations"/>
+                <field name="average"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_open_academy_student_form" model="ir.ui.view">
+        <field name="name">open.academy.student.form</field>
+        <field name="model">open.academy.student</field>
+        <field name="arch" type="xml">
+            <form string="Student">
+                <sheet>
+
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="user_id"/>
+                            <field name="identification"/>
+                            <field name="email"/>
+                            <field name="phone"/>
+                            <field name="active"/>
+                        </group>
+
+                        <group>
+                            <field name="active_registrations" readonly="1"/>
+                            <field name="average" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Registrations">
+                            <field name="registration_ids"/>
+                        </page>
+
+                        <page string="Enrolments">
+                            <field name="enrolment_ids"/>
+                        </page>
+                    </notebook>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_open_academy_student" model="ir.actions.act_window">
+        <field name="name">Students</field>
+        <field name="res_model">open.academy.student</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

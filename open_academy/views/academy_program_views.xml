@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_open_academy_program_list" model="ir.ui.view">
+        <field name="name">open.academy.program.list</field>
+        <field name="model">open.academy.program</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="degree_title"/>
+                <field name="director_id"/>
+                <field name="total_credits"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_open_academy_program_form" model="ir.ui.view">
+        <field name="name">open.academy.program.form</field>
+        <field name="model">open.academy.program</field>
+        <field name="arch" type="xml">
+            <form string="Program">
+                <sheet>
+                        <div class="oe_button_box" name="button_box">
+
+                            <button type="object"
+                                    name="action_view_registrations"
+                                    class="oe_stat_button"
+                                    icon="fa-users">
+
+                                <field name="registration_count"
+                                    widget="statinfo"/>
+
+                            </button>
+
+                        </div>
+
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="name"/>
+                            <field name="degree_title"/>
+                            <field name="director_id"/>
+                            <field name="active"/>
+                        </group>
+
+                        <group>
+                            <field name="total_credits" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Subjects">
+                            <field name="subject_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="category"/>
+                                    <field name="semester"/>
+                                    <field name="number_credits"/>
+                                    <field name="cost_subject"/>
+                                    <field name="credit_value"/>
+                                    <field name="max_enroll"/>
+                                    <field name="teacher_id"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_open_academy_program" model="ir.actions.act_window">
+        <field name="name">Programs</field>
+        <field name="res_model">open.academy.program</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>
