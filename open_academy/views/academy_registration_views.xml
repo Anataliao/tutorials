@@ -40,12 +40,6 @@
                         </group>
                     </group>
 
-                    <!-- <notebook>
-                        <page string="Enrolments">
-                            <field name="enrolment_ids"/>
-                        </page>
-                    </notebook> -->
-
                 </sheet>
             </form>
         </field>

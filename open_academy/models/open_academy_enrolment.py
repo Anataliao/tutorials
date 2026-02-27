@@ -11,14 +11,18 @@ class OpenAcademyEnrolment(models.Model):
         'open.academy.registration',
         string="Registration",
         required=True,
-        ondelete="cascade"
+        ondelete="cascade",
+        domain=lambda self: [
+            ('student_id.user_id', '=', self.env.uid)
+        ],
+        default=lambda self: self._get_default_registration()
     )
     
     user_id = fields.Many2one(
         'res.users',
         string="Assigned Student",
-        # required=True
-    ) 
+        default = lambda self: self.env.uid
+    )
     
     student_id = fields.Many2one(
         related='registration_id.student_id.user_id',
@@ -56,6 +60,16 @@ class OpenAcademyEnrolment(models.Model):
         string="Grade"
     )
 
+    def _get_default_registration(self):
+        registrations = self.env['open.academy.registration'].search(
+            [('student_id.user_id', '=', self.env.uid)]
+        )
+        # Si solo tiene una carrera → la pone automática
+        if len(registrations) == 1:
+            return registrations.id
+        # Si tiene varias → que elija
+        return False
+
     # CREAR AUTOMÁTICAMENTE REGISTRO DE NOTA 
     @api.model
     def create(self, vals):
@@ -85,19 +99,6 @@ class OpenAcademyEnrolment(models.Model):
                 raise ValidationError(
                     "You cannot enroll in a subject from another program."
                 )
-
-    # Validar cupo máximo
-    # @api.constrains('subject_id')
-    # def _check_max_enroll(self):
-    #     for rec in self:
-    #         subject = rec.subject_id
-
-    #         if not subject.is_global and subject.max_enroll:
-    #             if len(subject.enrolment_ids) > subject.max_enroll:
-    #                 raise ValidationError(
-    #                     "This subject has reached the maximum number of students."
-    #                 )
-
 
     # VALIDAR QUE NO LA HAYA APROBADO ANTES
     @api.constrains('subject_id', 'student_id')

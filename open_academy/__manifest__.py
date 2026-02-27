@@ -4,6 +4,7 @@
     'depends': ['base'],
     'author': "Natalia Ortiz",
     'category': 'apps',
+    'licence': 'LGPL-3',
     'description': """
     learning about odoo
     """,
