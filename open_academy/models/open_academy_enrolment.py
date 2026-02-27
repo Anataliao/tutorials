@@ -13,9 +13,15 @@ class OpenAcademyEnrolment(models.Model):
         required=True,
         ondelete="cascade"
     )
-
+    
+    user_id = fields.Many2one(
+        'res.users',
+        string="Assigned Student",
+        # required=True
+    ) 
+    
     student_id = fields.Many2one(
-        related='registration_id.student_id',
+        related='registration_id.student_id.user_id',
         store=True,
         string="Student"
     )
@@ -80,17 +86,17 @@ class OpenAcademyEnrolment(models.Model):
                     "You cannot enroll in a subject from another program."
                 )
 
-    # VALIDAR CUPO MÁXIMO
-    @api.constrains('subject_id')
-    def _check_max_enroll(self):
-        for rec in self:
-            subject = rec.subject_id
+    # Validar cupo máximo
+    # @api.constrains('subject_id')
+    # def _check_max_enroll(self):
+    #     for rec in self:
+    #         subject = rec.subject_id
 
-            if not subject.is_global:
-                if len(subject.enrolment_ids) > subject.max_enroll:
-                    raise ValidationError(
-                        "This subject has reached the maximum number of students."
-                    )
+    #         if not subject.is_global and subject.max_enroll:
+    #             if len(subject.enrolment_ids) > subject.max_enroll:
+    #                 raise ValidationError(
+    #                     "This subject has reached the maximum number of students."
+    #                 )
 
 
     # VALIDAR QUE NO LA HAYA APROBADO ANTES

@@ -5,7 +5,9 @@
         <field name="name">open.academy.registration.list</field>
         <field name="model">open.academy.registration</field>
         <field name="arch" type="xml">
-            <list>
+            <list decoration-success="active"
+                    decoration-danger="not active">
+                <field name="sequence" widget="handle"/>
                 <field name="student_id"/>
                 <field name="program_id"/>
                 <field name="current_semester"/>
@@ -38,11 +40,11 @@
                         </group>
                     </group>
 
-                    <notebook>
+                    <!-- <notebook>
                         <page string="Enrolments">
                             <field name="enrolment_ids"/>
                         </page>
-                    </notebook>
+                    </notebook> -->
 
                 </sheet>
             </form>

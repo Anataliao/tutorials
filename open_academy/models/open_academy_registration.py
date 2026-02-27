@@ -13,6 +13,7 @@ class OpenAcademyRegistration(models.Model):
         store=True
 )
 
+    sequence = fields.Integer()
 
     student_id = fields.Many2one(
         'open.academy.student',

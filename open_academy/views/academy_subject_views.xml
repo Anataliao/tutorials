@@ -6,6 +6,7 @@
         <field name="model">open.academy.subject</field>
         <field name="arch" type="xml">
             <list>
+                <field name="sequence" widget="handle"/>
                 <field name="name"/>
                 <field name="program_id"/>
                 <field name="category"/>
@@ -20,7 +21,7 @@
     </record>
 
     <record id="view_open_academy_subject_form" model="ir.ui.view">
-        <field name="name">open.academy.subject.form</field>
+        <field name="name">view.open.academy.subject.form</field>
         <field name="model">open.academy.subject</field>
         <field name="arch" type="xml">
             <form string="Subject">
@@ -51,8 +52,8 @@
         </field>
     </record>
 
-    <record id="view_open_academy_subject_stearch" model="ir.ui.view">
-        <field name="name">open.academy.subject.search</field>
+    <record id="view_open_academy_subject_search" model="ir.ui.view">
+        <field name="name">view.open.academy.subject.search</field>
         <field name="model">open.academy.subject</field>
         <field name="arch" type="xml">
 
@@ -76,23 +77,23 @@
                         domain="[('category','=','elective')]"/>
 
 
-                <group string="Group By">
+                <group> 
 
-                    <!-- <filter name="program" 
+                    <filter name="_group_program" 
                             string="Program"
                             context="{'group_by': 'program_id'}"/>
 
                     <filter name="semester" 
                             string="Semester"
-                            context="{'group_by': 'semester'}"/>
+                            context="{'group_by': 'semester'}"/> 
 
                     <filter name="teacher" 
                             string="Teacher"
                             context="{'group_by': 'teacher_id'}"/>
 
-                    <filter name="category"
+                     <filter name="category"
                             string="Category"
-                            context="{'group_by': 'category'}"/> -->
+                            context="{'group_by': 'category'}"/>
 
                 </group> 
 

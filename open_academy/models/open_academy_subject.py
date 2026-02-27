@@ -12,6 +12,8 @@ class OpenAcademySubject(models.Model):
         required=True
     )
 
+    sequence = fields.Integer()
+
     program_id = fields.Many2one(
         'open.academy.program',
         string="Program",
@@ -94,25 +96,18 @@ class OpenAcademySubject(models.Model):
     def _compute_student_count(self):
         for rec in self:
             rec.student_count = len(rec.enrolment_ids)
-
+                
     # Validar cupo máximo
-    # @api.constrains('max_enroll')
-    # def _check_max_enroll(self):
-    #     for rec in self:
-    #         if rec.max_enroll <= 0:
-    #             raise ValidationError(
-    #                 "Maximum students must be greater than zero."
-    #             )
-    @api.constrains('subject_id')
-    def _check_max_enroll(self):
+    @api.constrains('is_global', 'max_enroll', 'program_id')
+    def _check_max_enroll_required(self):
         for rec in self:
-            subject = rec.subject_id
-
-            if not subject.is_global:
-                if len(subject.enrolment_ids) > subject.max_enroll:
+            # Si NO es global, debe tener cupo mayor a 0
+            if not rec.is_global:
+                if not rec.max_enroll or rec.max_enroll <= 0:
                     raise ValidationError(
-                        "This subject has reached the maximum number of students."
-    )
+                        "Non-global subjects must have a maximum number of students greater than zero."
+                    )
+                
     # No permitir materias duplicadas en el mismo programa
     _unique_subject_per_program = models.Constraint(
         'UNIQUE(name, program_id)',

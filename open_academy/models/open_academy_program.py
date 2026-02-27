@@ -12,6 +12,8 @@ class OpenAcademyProgram(models.Model):
         string="Program Name",
         required=True
     )
+    
+    sequence = fields.Integer()
 
     code = fields.Char(
         string="Program Code",

@@ -5,19 +5,15 @@ from odoo.exceptions import ValidationError
 class OpenAcademyStudent(models.Model):
     _name = 'open.academy.student'
     _description = 'Student'
-    _rec_name = 'name'
-    _order = 'name'
 
-    name = fields.Char(
-        related='user_id.name',
-        store=True
-    )
+    name = fields.Char(related='user_id.name')
+
+    sequence = fields.Integer()
 
     user_id = fields.Many2one(
         'res.users',
-        string="Related User",
-        required=True,
-        ondelete="cascade"
+        string="Assigned Student",
+        # required=True
     )
 
     identification = fields.Char(
@@ -66,11 +62,11 @@ class OpenAcademyStudent(models.Model):
     @api.depends('enrolment_ids.grade_id.final_grade', 'enrolment_ids.credits')
     def _compute_average(self):
         for rec in self:
-            total_weight = 0
-            total_credits = 0
+            total_weight = 0 #suma (nota * creditos)
+            total_credits = 0 #suma total de creditos 
 
-            for enrol in rec.enrolment_ids:
-                if enrol.grade_id and enrol.grade_id.final_grade:
+            for enrol in rec.enrolment_ids: # recorre todas las materias donde el est este inscrito
+                if enrol.grade_id and enrol.grade_id.final_grade: # toma en cuenta las materias que tienen registro de nota y notaa final
                     total_weight += enrol.grade_id.final_grade * enrol.credits
                     total_credits += enrol.credits
 

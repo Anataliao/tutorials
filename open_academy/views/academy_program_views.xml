@@ -6,6 +6,7 @@
         <field name="model">open.academy.program</field>
         <field name="arch" type="xml">
             <list>
+                <field name="sequence" widget="handle"/>
                 <field name="code"/>
                 <field name="name"/>
                 <field name="degree_title"/>

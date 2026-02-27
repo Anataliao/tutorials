@@ -14,12 +14,6 @@ class OpenAcademyGrade(models.Model):
         ondelete="cascade"
     )
 
-    student_id = fields.Many2one(
-        related='enrolment_id.student_id',
-        store=True,
-        string="Student"
-    )
-
     subject_id = fields.Many2one(
         related='enrolment_id.subject_id',
         store=True,
@@ -30,6 +24,12 @@ class OpenAcademyGrade(models.Model):
         related='subject_id.teacher_id',
         store=True,
         string="Teacher"
+    )
+
+    student_id = fields.Many2one(
+        related='enrolment_id.student_id',
+        store=True,
+        string="Student"
     )
 
     cut1 = fields.Float(string="Cut 1 (30%)")
