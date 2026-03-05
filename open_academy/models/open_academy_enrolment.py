@@ -20,7 +20,6 @@ class OpenAcademyEnrolment(models.Model):
     
     user_id = fields.Many2one(
         related='registration_id.student_id.user_id',
-        string="Assigned Student",
         store=True,
         readonly=True
     )
@@ -28,19 +27,16 @@ class OpenAcademyEnrolment(models.Model):
     student_id = fields.Many2one(
         related='registration_id.student_id.user_id',
         store=True,
-        string="Student"
     )
 
     program_id = fields.Many2one(
         related='registration_id.program_id',
         store=True,
-        string="Program"
     )
 
     current_semester = fields.Selection(
         related='registration_id.current_semester',
         store=True,
-        string="Current Semester"
     )
     
     subject_id = fields.Many2one(
@@ -52,7 +48,6 @@ class OpenAcademyEnrolment(models.Model):
     credits = fields.Integer(
         related='subject_id.number_credits',
         store=True,
-        string="Credits"
     )
 
     grade_id = fields.One2many(

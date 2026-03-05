@@ -7,7 +7,6 @@
     <field name="arch" type="xml">
         <list>
             <field name="user_id"/>
-            <field name="student_id"/>
             <field name="program_id"/>
             <field name="current_semester"/>
             <field name="subject_id"/>
@@ -25,7 +24,6 @@
                         <group>
                             <field name="user_id" readonly="1" />
                             <field name="registration_id"/>
-                            <field name="student_id" readonly="1"/>
                             <field name="program_id" readonly="1"/>
                             <field name="current_semester" readonly="1"/>
 
