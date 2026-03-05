@@ -48,16 +48,6 @@ class OpenAcademyGrade(models.Model):
         store=True
     )
 
-    # CALCULAR NOTA FINAL
-    @api.depends('cut1', 'cut2', 'cut3')
-    def _compute_final_grade(self):
-        for rec in self:
-            rec.final_grade = (
-                (rec.cut1 * 0.3) +
-                (rec.cut2 * 0.3) +
-                (rec.cut3 * 0.4)
-            )
-
     # SUMATORIA Y APROBACION DE MATERIAS 
     @api.depends('cut1', 'cut2', 'cut3')
     def _compute_final_grade(self):
@@ -68,6 +58,20 @@ class OpenAcademyGrade(models.Model):
                 (rec.cut3 * 0.4)
             )
             rec.approved = rec.final_grade > 3.0
+
+    def write(self, vals):
+        # Guardar cambios de la nota
+        res = super(OpenAcademyGrade, self).write(vals)
+        
+        # mirar si cambiaron (notas)
+        if any(field in vals for field in ['cut1', 'cut2', 'cut3']):
+            for grade in self:
+                # Buscar la matrícula de esta nota
+                registration = grade.enrolment_id.registration_id.sudo()
+                if registration:
+                    # mirar se pasa semestre
+                    registration._check_and_promote_student()
+        return res
 
     # VALIDAR RANGO DE NOTAS (0 - 5)
     @api.constrains('cut1', 'cut2', 'cut3')

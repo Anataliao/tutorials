@@ -19,9 +19,10 @@ class OpenAcademyEnrolment(models.Model):
     )
     
     user_id = fields.Many2one(
-        'res.users',
+        related='registration_id.student_id.user_id',
         string="Assigned Student",
-        default = lambda self: self.env.uid
+        store=True,
+        readonly=True
     )
     
     student_id = fields.Many2one(
@@ -59,33 +60,56 @@ class OpenAcademyEnrolment(models.Model):
         'enrolment_id',
         string="Grade"
     )
+    @api.constrains('subject_id')
+    def _check_prerequisite(self):
+        for rec in self:
+            prereq = rec.subject_id.prerequisite_id
+            if prereq:
+                # Buscar si el estudiante tiene una nota aprobada en esa materia
+                # 3.0 es la nota mínima para pasar
+                passed = self.env['open.academy.grade'].search([
+                    ('student_id', '=', rec.student_id.id),
+                    ('subject_id', '=', prereq.id),
+                    ('final_grade', '>', 3.0)
+                ], limit=1)
 
+                if not passed:
+                    raise ValidationError(
+                        f"Registration Blocked! You cannot register'{rec.subject_id.name}' "
+                        f"because you have not passed the prerequisite:'{prereq.name}'."
+                    )
     def _get_default_registration(self):
         registrations = self.env['open.academy.registration'].search(
             [('student_id.user_id', '=', self.env.uid)]
         )
-        # Si solo tiene una carrera → la pone automática
+        # Si solo tiene una carrera la pone automática
         if len(registrations) == 1:
             return registrations.id
         # Si tiene varias → que elija
         return False
 
     # CREAR AUTOMÁTICAMENTE REGISTRO DE NOTA 
-    @api.model
-    def create(self, vals):
-        enrolment = super().create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        enrolments = super().create(vals_list)
 
-        self.env['open.academy.grade'].sudo().create({
-            'enrolment_id': enrolment.id
-        })
+        grade_vals = []
+        for enrolment in enrolments:
+            grade_vals.append({
+                'enrolment_id': enrolment.id
+            })
+        # Crear las notas
+        if grade_vals:
+            self.env['open.academy.grade'].sudo().create(grade_vals)
 
-        return enrolment
+        return enrolments
 
     # VALIDAR QUE LA MATERIA SEA DEL PROGRAMA
     @api.constrains('subject_id', 'program_id')
     def _check_subject_program(self):
         for rec in self:
-            if rec.subject_id.program_id != rec.program_id:
+            if  (not rec.subject_id.is_global and 
+                    rec.subject_id.program_id != rec.program_id):
                 raise ValidationError(
                     "You cannot enroll in a subject from another program."
                 )
@@ -116,9 +140,7 @@ class OpenAcademyEnrolment(models.Model):
                     "You already passed this subject."
                 )
 
-    # -------------------------------------------------
     # NO DUPLICAR MATERIA EN MISMA MATRÍCULA
-    # -------------------------------------------------
     _unique_subject_registration = models.Constraint(
         'UNIQUE(registration_id, subject_id)',
         'You are already enrolled in this subject.'

@@ -11,6 +11,7 @@
                 <field name="program_id"/>
                 <field name="category"/>
                 <field name="semester"/>
+                <field name="prerequisite_id"/>
                 <field name="number_credits"/>
                 <field name="credit_value"/>
                 <field name="cost_subject"/>
@@ -26,6 +27,14 @@
         <field name="arch" type="xml">
             <form string="Subject">
                 <sheet>
+                <div class="oe_button_box" name="button_box">
+                    <button name="action_view_enrolled_students"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-users">
+                        <field name="student_count" widget="statinfo" string="Inscribed"/>
+                    </button>
+                </div>
 
                     <group>
                         <group>
@@ -34,7 +43,10 @@
                             <field name="is_global"/>
                             <field name="category"/>
                             <field name="semester"/>
-                            <field name="credit_value"/>
+                            <field name="prerequisite_id" 
+                                    domain="[('program_id', '=', program_id), ('id', '!=', id)]"
+                                    options="{'no_create': True, 'no_open': True}"/>
+                                                            <field name="credit_value"/>
                         </group>
 
                         <group>

@@ -13,7 +13,8 @@ class OpenAcademyStudent(models.Model):
     user_id = fields.Many2one(
         'res.users',
         string="Assigned Student",
-        # required=True
+        required=True,
+        domain=lambda self: [('group_ids', 'in', [self.env.ref('open_academy.group_students').id])]
     )
 
     identification = fields.Char(

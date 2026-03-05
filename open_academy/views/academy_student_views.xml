@@ -41,7 +41,23 @@
 
                     <notebook>
                         <page string="Registrations">
-                            <field name="registration_ids"/>
+                            <field name="registration_ids">
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="student_id" readonly="1" />
+                                            <field name="program_id" />
+                                            <field name="current_semester" />
+                                            <field name="active" />
+                                        </group>
+                                        <group>
+                                            <field name="semester_cost"  />
+                                            <field name="insurance_value" />
+                                            <field name="total_to_pay" />
+                                        </group>
+                                    </group>
+                                </form>
+                            </field>
                         </page>
 
                         <page string="Enrolments">

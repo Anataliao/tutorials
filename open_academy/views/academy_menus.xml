@@ -9,36 +9,42 @@
               name="Programs"
               parent="open_academy_menu_root"
               action="action_open_academy_program"
+              groups="open_academy.group_coordination"
               sequence="1"/>
 
     <menuitem id="menu_open_academy_subject"
               name="Subjects"
               parent="open_academy_menu_root"
               action="action_open_academy_subject"
+              groups="open_academy.group_coordination"
               sequence="2"/>
 
     <menuitem id="menu_open_academy_student"
               name="Students"
               parent="open_academy_menu_root"
               action="action_open_academy_student"
+              groups="open_academy.group_coordination"
               sequence="3"/>
 
     <menuitem id="menu_open_academy_registration"
               name="Registrations"
               parent="open_academy_menu_root"
               action="open_academy.action_open_academy_registration"
+              groups="open_academy.group_coordination"
               sequence="4"/>
 
     <menuitem id="menu_open_academy_enrolment"
               name="Enrolments"
               parent="open_academy_menu_root"
               action="action_open_academy_enrolment"
+              groups="open_academy.group_coordination,group_students"
               sequence="5"/>
 
     <menuitem id="menu_open_academy_grade"
               name="Grades"
               parent="open_academy_menu_root"
               action="action_open_academy_grade"
+              groups="open_academy.group_coordination,group_teachers"
               sequence="6"/>
 
 </odoo>

@@ -58,6 +58,7 @@
                                     <field name="name"/>
                                     <field name="category"/>
                                     <field name="semester"/>
+                                    <field name="prerequisite_id"/>
                                     <field name="number_credits"/>
                                     <field name="cost_subject"/>
                                     <field name="credit_value"/>

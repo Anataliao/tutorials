@@ -23,7 +23,7 @@
             <sheet> 
                 <group>
                         <group>
-                            <field name="user_id" readonly="1" invisible="True"/>
+                            <field name="user_id" readonly="1" />
                             <field name="registration_id"/>
                             <field name="student_id" readonly="1"/>
                             <field name="program_id" readonly="1"/>

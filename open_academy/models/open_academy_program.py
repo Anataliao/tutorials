@@ -28,7 +28,8 @@ class OpenAcademyProgram(models.Model):
     director_id = fields.Many2one(
         'res.users',
         string="Program Director",
-        required=True
+        required=True,
+        domain=lambda self: [('group_ids', 'in', [self.env.ref('open_academy.group_coordination').id])]
     )
 
     active = fields.Boolean(

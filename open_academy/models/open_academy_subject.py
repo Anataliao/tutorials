@@ -21,8 +21,8 @@ class OpenAcademySubject(models.Model):
     )
 
     is_global = fields.Boolean(
-    string="Global Subject",
-    default=False
+        string="Global Subject",
+        default=False
     )
 
     category = fields.Selection(
@@ -65,7 +65,8 @@ class OpenAcademySubject(models.Model):
     teacher_id = fields.Many2one(
         'res.users',
         string="Assigned Teacher",
-        required=True
+        required=True,
+        domain=lambda self: [('group_ids', 'in', [self.env.ref('open_academy.group_teachers').id])]
     )
 
     enrolment_ids = fields.One2many(
@@ -84,6 +85,13 @@ class OpenAcademySubject(models.Model):
         string="Active",
         default=True
     )
+    
+    prerequisite_id = fields.Many2one(
+        'open.academy.subject', 
+        string="Prerrequisito",
+        domain="[('program_id', '=', program_id), ('id', '!=', id)]",
+        help="Materia del mismo programa que debe ser aprobada antes."
+    )
 
     # Calcular costo automáticamente
     @api.depends('number_credits', 'credit_value')
@@ -97,6 +105,7 @@ class OpenAcademySubject(models.Model):
         for rec in self:
             rec.student_count = len(rec.enrolment_ids)
                 
+    
     # Validar cupo máximo
     @api.constrains('is_global', 'max_enroll', 'program_id')
     def _check_max_enroll_required(self):
@@ -108,6 +117,17 @@ class OpenAcademySubject(models.Model):
                         "Non-global subjects must have a maximum number of students greater than zero."
                     )
                 
+    #Que el boton para ver que estudiantes tiene cada asignatura
+    def action_view_enrolled_students(self):
+        self.ensure_one()
+        return {
+            'name': f'Students in {self.name}',
+            'type': 'ir.actions.act_window',
+            'res_model': 'open.academy.enrolment',
+            'view_mode': 'list,form',
+            'domain': [('subject_id', '=', self.id)],
+            'target': 'current',
+        }                
     # No permitir materias duplicadas en el mismo programa
     _unique_subject_per_program = models.Constraint(
         'UNIQUE(name, program_id)',
